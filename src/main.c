@@ -1,6 +1,6 @@
 #include "elib.h"
 #include "daemonize.h"
-#include "daemone_linmap.h"
+#include "daemon_linmap.h"
 
 int
 main(int argc, char *argv[])
@@ -9,6 +9,6 @@ main(int argc, char *argv[])
 		0,
 		10
 	};
-	spawn("LINMAPd", daemon_linmap, (void *)conf);
+	spawn("LINMAPd", daemon_linmap, (void *)&conf);
 return 0;
 }

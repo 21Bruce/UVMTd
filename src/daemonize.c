@@ -12,9 +12,14 @@
 #include "elib.h"
 
 #include <syslog.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
 #include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /* Spawns a properly daemonized function
  * whilst allowing parent process to 
