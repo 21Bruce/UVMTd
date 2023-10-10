@@ -6,9 +6,8 @@
 /*
  * Consistent method of crashing.
  */
-
 void
-die(const char *msg, const char *restrict format, ...)
+die(const char *restrict format, ...)
 {
 	fprintf(stderr, "[FAILURE]: ");
 	va_list ap;
@@ -17,4 +16,16 @@ die(const char *msg, const char *restrict format, ...)
 	va_end(ap);
 	fprintf(stderr, "\n");
 	exit(-1);
+}
+
+/*
+ * Consistent method of Logging daemon errs.
+ */
+void
+derr(const char *restrict format, ...)
+{
+	va_list ap;
+	va_start(ap, format);
+	vsyslog(LOG_ERR, format, ap);
+	va_end(ap);
 }

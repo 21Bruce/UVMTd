@@ -20,12 +20,13 @@
  * whilst allowing parent process to 
  * resume operation. This allows
  * multiple daemons to spawn from the 
- * same main
+ * same main. Each daemon is permitted
+ * a config struct.
  */
 void 
-spawn(char *dname, daemonf df)
+spawn(char *dname, daemonf *df, void *config)
 {
-	int			i, fd0, fd1, fd2;
+	int			i, fd0, fd1, fd2, dstat;
 	pid_t			pid;
 	struct rlimit 		rl;	
 	struct sigaction 	sa;	
@@ -94,9 +95,20 @@ spawn(char *dname, daemonf df)
 	}
 
 	/*
-	 * Pass control to daemon.
+	 * Pass control to daemon. Save
+	 * resulting status.
 	 */
-	(*df)();
+	dstat = (*df)(config);
+
+	/*
+	 * Close syslog.
+	 */
+	closelog();
+	
+	/*
+	 * Exit with saved status.
+	 */
+	exit(dstat);
 
 	/*
 	 * NOT REACHED
