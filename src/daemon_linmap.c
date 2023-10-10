@@ -43,7 +43,7 @@ daemon_linmap(void *config)
 		 */
 		map = mmap(NULL, npages * pgsize, PROT_READ | PROT_WRITE, MAP_ANON, -1, 0);
 		if (map == NULL) {
-			syserr("Could not map memory");
+			derr("Could not map memory");
 			return ERR_MEM_STAT;
 		}
 
@@ -60,7 +60,7 @@ daemon_linmap(void *config)
 
 		for (int i = 0; i < npages * pgsize; i++) {
 			if (map[i] != (byte)i) {
-				syserr("Integrity failure, expected %d at %p, but got %d", (byte)i, (map + i), map[i]);
+				derr("Integrity failure, expected %d at %p, but got %d", (byte)i, (map + i), map[i]);
 				return ERR_INT_STAT;
 			}
 		}
