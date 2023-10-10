@@ -1,6 +1,6 @@
 /* Copyright (c) Bruce Jagid 2023 
  * **********************************************************************
- * Daemonize takes a function and forks it into a daemon, changing the 
+ * Spawn takes a function and forks it into a daemon, changing the 
  * appropriate process specific metadata required to run the function
  * in the background of the system. This implementation is heavily
  * reliant on Chapter 13, Figure 13.1 of "Advanced Programming in The
@@ -8,7 +8,7 @@
  * **********************************************************************
  */
 
-#include "daemonize.h"
+#include "spawn.h"
 #include "elib.h"
 
 #include <syslog.h>
