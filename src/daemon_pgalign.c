@@ -29,6 +29,7 @@ daemon_pgalign(void *config)
 	 * Get system page size.
 	 */
 	unsigned long pgsize = sysconf(_SC_PAGESIZE);
+	dlog("Detected system page size to be %d.", pgsize);
 
 	/*
 	 * Cast config to daemon specific
@@ -37,6 +38,7 @@ daemon_pgalign(void *config)
 	struct daemon_pgalign_conf *conf = (struct daemon_pgalign_conf *) config; 
 	unsigned int sleept = conf->sleept;
 	unsigned int npages = conf->npages > 0 ? conf->npages : 10;
+	dlog("Config sleep time is %d and page number is %d.", sleept, npages);
 
 	/*
 	 * Allocate space for map ptrs.
@@ -62,7 +64,7 @@ daemon_pgalign(void *config)
 				for (j = 0; j < i; j++)
 					munmap(maps[j], pgsize);
 				free(maps);
-				ddie(ERR_MEM_STAT, "Failed memory allocation");
+				ddie(ERR_MEM_STAT, "Failed memory allocation.");
 			}
 			/*
 			 * If any map is not aligned,
@@ -73,7 +75,7 @@ daemon_pgalign(void *config)
 				for (j = 0; j <= i; j++)
 					munmap(maps[j], pgsize);
 				free(maps);
-				ddie(ERR_INT_STAT, "Expected %p to be aligned on %l, but it is not", maps[i], pgsize);
+				ddie(ERR_INT_STAT, "Expected %p to be aligned on %l, but it is not.", maps[i], pgsize);
 			}	
 		}
 

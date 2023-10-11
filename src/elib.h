@@ -8,10 +8,12 @@
 void die(const char* restrict, ...);
 
 /*
- * Error functions for use in
+ * Error and info functions for use in
  * daemon process.
  */
 void derr(const char* restrict, ...);
+
+void dlog(const char* restrict, ...);
 
 #define ddie(stat, ...) 	\
 do {				\

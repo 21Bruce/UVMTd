@@ -34,6 +34,7 @@ daemon_linmap(void *config)
 	 * Get system page size.
 	 */
 	long pgsize = sysconf(_SC_PAGESIZE);
+	dlog("Detected system page size to be %d.", pgsize);
 
 	/*
 	 * Check daemon conf and set defaults. 
@@ -42,6 +43,7 @@ daemon_linmap(void *config)
 	unsigned int sleept = conf->sleept > 0 ? conf->sleept : 60;
 	unsigned int npages = conf->npages > 0 ? conf->npages : 10;
 	unsigned long bsize = npages * pgsize;
+	dlog("Config sleep time is %d and page number is %d.", sleept, npages);
 
 	/*
 	 * Main loop of the daemon 
@@ -53,7 +55,7 @@ daemon_linmap(void *config)
 		 */
 		map = mmap(NULL, bsize, PROT_READ | PROT_WRITE, MAP_ANON, -1, 0);
 		if (map == NULL) 
-			ddie(ERR_MEM_STAT, "Could not map memory");
+			ddie(ERR_MEM_STAT, "Could not map memory.");
 		
 
 		/*
@@ -72,7 +74,7 @@ daemon_linmap(void *config)
 		 */
 		for (int i = 0; i < bsize; i++) {
 			if (map[i] != (byte)i) 
-				ddie(ERR_INT_STAT, "Integrity failure, expected %d at %p, but got %d", (byte)i, (map + i), map[i]);
+				ddie(ERR_INT_STAT, "Integrity failure, expected %d at %p, but got %d.", (byte)i, (map + i), map[i]);
 		}
 
 		/*
