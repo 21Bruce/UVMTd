@@ -17,9 +17,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define ERR_MEM_STAT 65
-#define ERR_INT_STAT 66
-
 typedef unsigned char byte;
 
 /*
@@ -37,6 +34,7 @@ daemon_linmap(void *config)
 	 * Get system page size.
 	 */
 	long pgsize = sysconf(_SC_PAGESIZE);
+	dlog("Detected system page size to be %d.", pgsize);
 
 	/*
 	 * Check daemon conf and set defaults. 
@@ -44,26 +42,26 @@ daemon_linmap(void *config)
 	struct daemon_linmap_conf *conf = (struct daemon_linmap_conf*)config;
 	unsigned int sleept = conf->sleept > 0 ? conf->sleept : 60;
 	unsigned int npages = conf->npages > 0 ? conf->npages : 10;
+	unsigned long bsize = npages * pgsize;
+	dlog("Config sleep time is %d and page number is %d.", sleept, npages);
 
 	/*
 	 * Main loop of the daemon 
 	 */	
 	byte *map; 
 	for (; ;) {
-
 		/*
 		 * Allocate map or die. 
 		 */
-		map = mmap(NULL, npages * pgsize, PROT_READ | PROT_WRITE, MAP_ANON, -1, 0);
-		if (map == NULL) {
-			derr("Could not map memory");
-			return ERR_MEM_STAT;
-		}
+		map = mmap(NULL, bsize, PROT_READ | PROT_WRITE, MAP_ANON, -1, 0);
+		if (map == NULL) 
+			ddie(ERR_MEM_STAT, "Could not map memory.");
+		
 
 		/*
-		 * Store and check memory in the map. 
+		 * Store linear values in the map. 
 		 */
-		for (int i = 0; i < npages * pgsize; i++)
+		for (int i = 0; i < bsize; i++)
 			map[i] = (byte)i;
 
 		/*
@@ -71,17 +69,18 @@ daemon_linmap(void *config)
 		 */
 		sleep(sleept);
 
-		for (int i = 0; i < npages * pgsize; i++) {
-			if (map[i] != (byte)i) {
-				derr("Integrity failure, expected %d at %p, but got %d", (byte)i, (map + i), map[i]);
-				return ERR_INT_STAT;
-			}
+		/*
+		 * Check linear values in the map. 
+		 */
+		for (int i = 0; i < bsize; i++) {
+			if (map[i] != (byte)i) 
+				ddie(ERR_INT_STAT, "Integrity failure, expected %d at %p, but got %d.", (byte)i, (map + i), map[i]);
 		}
 
 		/*
 		 * Release memory.
 		 */
-		munmap(map, npages * pgsize);
+		munmap(map, bsize);
 	}
 	/*
 	 * NOT REACHED.
