@@ -1,7 +1,7 @@
 # UVMTd
 System Daemons for stress-testing UVM on OpenBSD. 
 
-# Description
+## Description
 The intention for this project is to provide easy to run
 daemons to test the behavior of the UVM system over time 
 to catch bugs. There will be daemons both for black-box 
@@ -10,7 +10,7 @@ times and validating constantly), and for white-box testing
 (i.e., using knowledge of UVM to force certain permutations
 of the underlying vm_map structure).
 
-# How to build
+## How to build
 This project is intended to be run on OpenBSD, with
 no other dependencies.
 1. `git clone` this directory
