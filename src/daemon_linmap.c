@@ -16,10 +16,6 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
-
-#define ERR_MEM_STAT 65
-#define ERR_INT_STAT 66
 
 typedef unsigned char byte;
 
