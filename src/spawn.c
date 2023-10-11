@@ -66,7 +66,7 @@ spawn(char *dname, daemonf *df, void *config)
 	if ((pid = fork()) < 0)
 		die("Attempted to spawn %s daemon, can't fork", dname);
 	if (pid != 0) /* parent */
-		return;
+		exit(0);
 
 	/*
 	 * Change the current working directory to root so

@@ -6,8 +6,8 @@ int
 main(int argc, char *argv[])
 {
 	struct daemon_linmap_conf conf = {
-		0,
-		10000,
+		(24 * 60),
+		100000,
 	};
 	spawn("LINMAPd", daemon_linmap, (void *)&conf);
 return 0;
