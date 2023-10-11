@@ -75,7 +75,7 @@ daemon_pgalign(void *config)
 				for (j = 0; j <= i; j++)
 					munmap(maps[j], pgsize);
 				free(maps);
-				ddie(ERR_INT_STAT, "Expected %p to be aligned on %l, but it is not.", maps[i], pgsize);
+				ddie(ERR_INT_STAT, "Expected %p to be aligned on %d, but it is not.", maps[i], pgsize);
 			}	
 		}
 
