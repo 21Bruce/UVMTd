@@ -10,5 +10,5 @@ main(int argc, char *argv[])
 		100000,
 	};
 	spawn("LINMAPd", daemon_linmap, (void *)&conf);
-return 0;
+	return 0;
 }
