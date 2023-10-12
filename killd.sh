@@ -2,14 +2,13 @@
 
 # Simple script to kill daemons
 
-ps -A | awk '
-BEGIN { }
+ps -A  |
+awk '
 {
 	if ($5 == "uvmtd:"){
 		print $1
 	}
 }
-END { }
 ' | 
 while read PID 
 do 
