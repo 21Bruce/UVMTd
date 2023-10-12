@@ -1,4 +1,4 @@
-BIN:=bin
+BIN:=uvmtd
 CODEDIRS:= ./src
 
 CC:=cc

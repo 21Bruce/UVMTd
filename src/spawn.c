@@ -100,6 +100,11 @@ spawn(char *dname, daemonf *df, void *config)
 	}
 
 	/*
+	 * Set process title.
+	 */
+	setproctitle("%s", dname);
+
+	/*
 	 * Pass control to daemon. Save
 	 * resulting status.
 	 */

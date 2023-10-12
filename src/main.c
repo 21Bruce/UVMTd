@@ -14,7 +14,12 @@ main(int argc, char *argv[])
 	 	0,	
 		0,
 	};
-	spawn("PGALIGNd", daemon_pgalign, (void *)&pg_conf);
-	spawn("LINMAPd", daemon_linmap, (void *)&lm_conf);
+	spawn("pgalign0d", daemon_pgalign, (void *)&pg_conf);
+	spawn("linmap0d", daemon_linmap, (void *)&lm_conf);
+	struct daemon_linmap_conf lm2_conf = {
+	 	5,	
+		1000,
+	};
+	spawn("linmap1d", daemon_linmap, (void *)&lm2_conf);
 	return 0;
 }

@@ -15,4 +15,12 @@ This project is intended to be run on OpenBSD, with
 no other dependencies.
 1. `git clone` this directory
 2. run `make` in the cloned directory
-3. run `./bin` to spawn the only available daemon
+3. run `./UVMTd` to spawn the two available daemons
+
+## How to use 
+At the moment, there is no UI to the program. All
+files containing daemons are prefixed with `daemon_`.
+The function needed to create them is found in
+`spawn.c`. To display all running UVMTd daemons and information
+about them, use the `dispd.sh` script, and to kill all daemons,
+use the `killd.sh` script.
