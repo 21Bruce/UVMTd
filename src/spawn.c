@@ -31,7 +31,8 @@
 void 
 spawn(char *dname, daemonf *df, void *config)
 {
-	int			i, fd0, fd1, fd2, dstat;
+	int			i, fd0, fd1, fd2, dstat, nlen;
+	char *			name;
 	pid_t			pid;
 	struct rlimit 		rl;	
 	struct sigaction 	sa;	
@@ -93,8 +94,8 @@ spawn(char *dname, daemonf *df, void *config)
 	/*
 	 * Append a 'd' to dname
 	 */
-	int nlen = strlen(dname);
-	char *name = malloc((nlen + 2) * sizeof *name);
+	nlen = strlen(dname);
+	name = malloc((nlen + 2) * sizeof *name);
 	strlcpy(name, dname, nlen + 2);
 	name[nlen] = 'd';
 	name[nlen+1] = '\0';
