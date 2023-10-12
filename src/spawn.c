@@ -91,18 +91,29 @@ spawn(char *dname, daemonf *df, void *config)
 	fd2 = dup(0); 
 
 	/*
+	 * Append a 'd' to dname
+	 */
+	int nlen = strlen(dname);
+	char *name = malloc((nlen + 2) * sizeof *name);
+	strlcpy(name, dname, nlen + 2);
+	name[nlen] = 'd';
+	name[nlen+1] = '\0';
+
+	/*
 	 * Initialize the log file.
 	 */ 	
-	openlog(dname, LOG_CONS, LOG_DAEMON);
+	openlog(name, LOG_CONS, LOG_DAEMON);
 	if (fd0 != 0 || fd1 != 1 || fd2 != 2) {  
 		syslog(LOG_ERR, "unexpected file descriptors %d %d %d", fd0, fd1, fd2);
+		closelog();
+		free(name);
 		exit(1);
 	}
 
 	/*
 	 * Set process title.
 	 */
-	setproctitle("%sd", dname);
+	setproctitle("%s", name);
 
 	/*
 	 * Pass control to daemon. Save
@@ -114,6 +125,11 @@ spawn(char *dname, daemonf *df, void *config)
 	 * Close syslog.
 	 */
 	closelog();
+
+	/*
+	 * Release Resources.
+	 */
+	free(name);
 	
 	/*
 	 * Exit with saved status.
