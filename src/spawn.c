@@ -106,9 +106,8 @@ spawn(char *dname, daemonf *df, void *config)
 	openlog(name, LOG_CONS, LOG_DAEMON);
 	if (fd0 != 0 || fd1 != 1 || fd2 != 2) {  
 		syslog(LOG_ERR, "unexpected file descriptors %d %d %d", fd0, fd1, fd2);
-		closelog();
-		free(name);
-		exit(1);
+		dstat = 1;
+		goto end;
 	}
 
 	/*
@@ -122,6 +121,7 @@ spawn(char *dname, daemonf *df, void *config)
 	 */
 	dstat = (*df)(config);
 
+end:
 	/*
 	 * Close syslog.
 	 */
