@@ -2,8 +2,6 @@
 
 # Simple script to print info about daemons
 
-#ps -A | grep "UVMTd:"
-
 ps -A | awk '
 BEGIN { }
 {
