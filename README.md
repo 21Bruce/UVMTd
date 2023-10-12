@@ -15,7 +15,7 @@ This project is intended to be run on OpenBSD, with
 no other dependencies.
 1. `git clone` this directory
 2. run `make` in the cloned directory
-3. run `./UVMTd` to spawn the two available daemons
+3. run `./uvmtd` to spawn the two available daemons
 
 ## How to use 
 At the moment, there is no UI to the program. All
