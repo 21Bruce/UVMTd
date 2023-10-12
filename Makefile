@@ -14,7 +14,7 @@ GCHFILES:= ${HFILES:S/.h/.h.gch/g}
 
 .SUFFIXES: .o .c
 
-.PHONY: all clean
+.PHONY: all clean rundisp
 
 all: ${BIN}
 
@@ -26,4 +26,13 @@ ${BIN}: ${OFILES}
 
 clean:
 	@rm -rf ${OFILES} ${DFILES} ${GCHFILES}
+
+rundisp:
+	@make -s ${BIN} 2> /dev/null
+	@./${BIN}
+	@make clean
+	@./dispd.sh 
+
+	
+
 
