@@ -1,6 +1,9 @@
 #ifndef __UVMTD_DAEMON_PGALIGN_H__
 #define __UVMTD_DAEMON_PGALIGN_H__
 
+/*
+ * Page align daemon config
+ */
 struct daemon_pgalign_conf {
 	/*
 	 * Delay between check clusters.
